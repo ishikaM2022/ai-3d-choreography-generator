@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI 3D Choreography Generator</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="page">
+      <header class="hero">
+        <div>
+          <p class="eyebrow">AI 3D Dance Studio</p>
+          <h1>Create choreographies from any song.</h1>
+          <p class="lead">
+            Upload a track, pick a style, and define your stage layout. This free, privacy-first
+            workflow analyzes beats, structure, and energy curves to craft safe, teachable 2D/3D
+            routines without paid services.
+          </p>
+          <div class="hero-actions">
+            <button class="primary" type="button" id="load-demo">Load demo data</button>
+            <button class="secondary" type="button" id="reset-form">Reset</button>
+          </div>
+        </div>
+          <div class="hero-card">
+            <div class="card-title">Complete pipeline</div>
+            <ul>
+              <li>🎶 Upload song → beat analysis</li>
+              <li>🎧 Style selection → choreography logic</li>
+              <li>👯 Group formations (center + background)</li>
+              <li>🕺 2D/3D dancer staging + animation preview</li>
+              <li>📽️ Export video + teaching materials</li>
+            </ul>
+          </div>
+        </header>
+
+      <main class="content">
+        <section class="panel">
+          <h2>Choreography brief</h2>
+          <form id="choreo-form">
+            <label class="field">
+              <span>Song upload</span>
+              <input type="file" accept="audio/*" />
+              <small>Supported: MP3, WAV, M4A. Your audio stays local in this demo.</small>
+            </label>
+
+            <label class="field">
+              <span>Dance style</span>
+              <select id="style-select">
+                <option value="afrobeat">Afrobeat</option>
+                <option value="hiphop">Hip-hop</option>
+                <option value="kpop">K-pop</option>
+                <option value="contemporary">Contemporary</option>
+                <option value="bollywood">Bollywood</option>
+                <option value="house">House</option>
+              </select>
+            </label>
+
+            <label class="field">
+              <span>Choreography format (for teaching)</span>
+              <select id="format-select">
+                <option value="counts">Counts + cues</option>
+                <option value="sections">Section-by-section</option>
+                <option value="levels">Beginner-friendly breakdown</option>
+              </select>
+            </label>
+
+            <div class="grid">
+              <label class="field">
+                <span>Formation type</span>
+                <select id="formation-select">
+                  <option value="solo">Solo</option>
+                  <option value="crew">Crew (symmetric)</option>
+                  <option value="center-background">Center + background</option>
+                  <option value="triads">Triads</option>
+                </select>
+              </label>
+              <label class="field">
+                <span>Total dancers</span>
+                <input type="number" id="dancer-count" min="1" max="50" value="7" />
+              </label>
+            </div>
+
+            <div class="grid">
+              <label class="field">
+                <span>Center dancers</span>
+                <input type="number" id="center-count" min="0" max="10" value="1" />
+              </label>
+              <label class="field">
+                <span>Background dancers</span>
+                <input type="number" id="background-count" min="0" max="50" value="6" />
+              </label>
+            </div>
+
+            <label class="field">
+              <span>Preview mode</span>
+              <select id="preview-select">
+                <option value="2d">2D blocking (top-down)</option>
+                <option value="3d">3D stage camera</option>
+                <option value="both">2D + 3D split</option>
+              </select>
+            </label>
+
+            <label class="field">
+              <span>Energy curve</span>
+              <input type="range" id="energy-range" min="1" max="10" value="7" />
+              <div class="range-labels">
+                <span>Low key</span>
+                <span>Explosive</span>
+              </div>
+            </label>
+
+            <label class="field">
+              <span>Notes for the AI choreographer</span>
+              <textarea
+                id="notes"
+                placeholder="Example: focus on sharp arm lines, build a formation change every 8 counts, add a slow bridge moment."
+              ></textarea>
+            </label>
+
+            <button class="primary" type="submit">Generate choreography</button>
+          </form>
+        </section>
+
+        <section class="panel output">
+          <h2>Generated output</h2>
+          <div class="output-card">
+            <div class="output-header">
+              <div>
+                <h3>Scene plan</h3>
+                <p>Beat-synced formations and move suggestions.</p>
+              </div>
+              <span class="status" id="status-pill">Awaiting brief</span>
+            </div>
+
+            <div class="timeline" id="timeline">
+              <div class="timeline-row">
+                <span>Intro</span>
+                <div class="bar">
+                  <span class="fill" style="width: 20%"></span>
+                </div>
+              </div>
+              <div class="timeline-row">
+                <span>Verse A</span>
+                <div class="bar">
+                  <span class="fill" style="width: 45%"></span>
+                </div>
+              </div>
+              <div class="timeline-row">
+                <span>Chorus</span>
+                <div class="bar">
+                  <span class="fill" style="width: 80%"></span>
+                </div>
+              </div>
+              <div class="timeline-row">
+                <span>Bridge</span>
+                <div class="bar">
+                  <span class="fill" style="width: 35%"></span>
+                </div>
+              </div>
+            </div>
+
+            <div class="output-grid">
+              <div>
+                <h4>Formation notes</h4>
+                <ul id="formation-notes">
+                  <li>Select a brief to preview spatial planning.</li>
+                </ul>
+              </div>
+              <div>
+                <h4>Export plan</h4>
+                <ul id="export-plan">
+                  <li>Animation preview (2D/3D).</li>
+                  <li>Teaching format sheet.</li>
+                  <li>Exportable MP4 video.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel secondary-panel">
+            <h3>Advanced control & safety</h3>
+            <ol>
+              <li>Free, local-first beat detection (e.g., Madmom or Essentia).</li>
+              <li>Choreography logic: counts, cues, and difficulty levels.</li>
+              <li>2D/3D dancers with formation safety constraints.</li>
+              <li>Generate animation previews and export video.</li>
+            </ol>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script src="app.js"></script>
+  </body>
+</html>
